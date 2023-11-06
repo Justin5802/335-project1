@@ -10,11 +10,16 @@ Deck.cpp Defines the Deck class.
 
 // Default constructor
 template <typename CardType>
-Deck<CardType>::Deck() {}
+Deck<CardType>::Deck() 
+{
+    cards_.clear();
+}
 
 // Destructor
 template <typename CardType>
-Deck<CardType>::~Deck() {}
+Deck<CardType>::~Deck() {
+    cards_.clear();
+}
 
 // AddCard function implementation
 template <typename CardType>
@@ -25,13 +30,12 @@ void Deck<CardType>::AddCard(const CardType& card) {
 // Draw function implementation
 template <typename CardType>
 CardType&& Deck<CardType>::Draw() {
-    if (IsEmpty()) {
-        throw std::out_of_range("Deck is empty");
+    if (!IsEmpty()){
+        cards_.back().setDrawn(true);
+        CardType &&tmp = std::move(cards_.back());
+        cards_.pop_back();
+        return std::move(tmp);
     }
-
-    CardType drawnCard = std::move(cards_.back());
-    cards_.pop_back();
-    return std::move(drawnCard);
 }
 
 // IsEmpty function implementation
@@ -43,8 +47,9 @@ bool Deck<CardType>::IsEmpty() const {
 // Shuffle function implementation
 template <typename CardType>
 void Deck<CardType>::Shuffle() {
-    std::mt19937 rng(2028358904);
-    std::shuffle(cards_.begin(), cards_.end(), rng);
+    std::mt19937 gen;
+    gen.seed(2028358904);
+    std::shuffle(cards_.begin(), cards_.end(), gen);
 }
 
 // getSize function implementation

@@ -13,10 +13,14 @@ Hand.cpp Defines the Hand class.
 Hand::Hand() {}
 
 // Destructor
-Hand::~Hand() {}
+Hand::~Hand() {
+    cards_.clear();
+}
 
 // Copy Constructor
-Hand::Hand(const Hand& other) : cards_(other.cards_) {}
+Hand::Hand(const Hand& other){
+    cards_ = other.cards_;
+}
 
 // Copy Assignment Operator
 Hand& Hand::operator=(const Hand& other) {
@@ -27,7 +31,9 @@ Hand& Hand::operator=(const Hand& other) {
 }
 
 // Move Constructor
-Hand::Hand(Hand&& other) noexcept : cards_(std::move(other.cards_)) {}
+Hand::Hand(Hand&& other){
+    cards_ = std::move(other.cards_);
+}
 
 // Move Assignment Operator
 Hand& Hand::operator=(Hand&& other) noexcept {
@@ -42,7 +48,8 @@ const std::deque<PointCard>& Hand::getCards() const {
 }
 
 void Hand::addCard(PointCard&& card) {
-    cards_.emplace_back(std::move(card));
+    card.setDrawn(true);
+    cards_.push_back(card);
 }
 
 bool Hand::isEmpty() const {
@@ -50,25 +57,26 @@ bool Hand::isEmpty() const {
 }
 
 void Hand::Reverse() {
-    std::reverse(cards_.begin(), cards_.end());
+    if (cards_.size() > 1){
+        for (int i = 0; i < cards_.size() / 2; i++){
+            if (i != cards_.size() - i - 1)
+                std::swap(cards_[i], cards_[cards_.size() - i - 1]);
+        }
+    }
 }
 
 int Hand::PlayCard() {
-    if (isEmpty()) {
-        throw std::out_of_range("Hand is empty");
-    }
-
-    int points = std::stoi(cards_.front().getInstruction()); // Assuming 'getInstruction()' returns a string
-    cards_.pop_front();
-
-    // Assuming 'isPlayable()' checks if the instruction is a valid number
-    if (!cards_.front().isPlayable()) {
+    if (isEmpty() || !(cards_.front().isPlayable())){
+        if (!(cards_.front().isPlayable()))
+            if (!(cards_.front().isPlayable()))
+                cards_.pop_front();
+            throw "Empty Hand or Card is not Playable";
+        }
+        int points = std::stoi(cards_.front().getInstruction());
         cards_.pop_front();
-        throw std::logic_error("Card is not playable");
+        return points;
     }
 
-    return points;
-}
 
 
 

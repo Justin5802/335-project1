@@ -1,5 +1,11 @@
 #include "Card.hpp"
 
+//default constructor
+Card::Card(){
+    instruction_ = "";
+    bitmap_ = nullptr;
+    drawn_ = false;
+}
 
 // Destructor
 Card::~Card() {
