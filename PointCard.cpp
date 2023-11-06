@@ -10,7 +10,12 @@ PointCard.cpp Defines the PointCard class.
 #include <iostream>
 
 // Default Constructor
-PointCard::PointCard() {}
+PointCard::PointCard() {
+    setInstruction("");
+    setImageData(nullptr);
+    setDrawn(false);
+    setType(POINT_CARD);
+}
 
 // isPlayable function implementation
 bool PointCard::isPlayable() {

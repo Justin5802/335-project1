@@ -10,7 +10,12 @@ ActionCard.cpp Defines the ActionCard class.
 #include <iostream>
 
 // Default Constructor
-ActionCard::ActionCard() {}
+ActionCard::ActionCard() {
+    setInstruction("");
+    setImageData(nullptr);
+    setDrawn(false);
+    setType(ACTION_CARD);
+}
 
 // isPlayable function implementation
 bool ActionCard::isPlayable() {
