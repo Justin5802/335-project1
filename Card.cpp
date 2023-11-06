@@ -1,11 +1,5 @@
 #include "Card.hpp"
 
-//default constructor
-Card::Card(){
-    instruction_ = "";
-    bitmap_ = nullptr;
-    drawn_ = false;
-}
 
 // Destructor
 Card::~Card() {
@@ -117,15 +111,5 @@ void Card::setDrawn(const bool& drawn) {
     drawn_ = drawn;
 }
 
-// Implement the pure virtual functions
-void Card::Print() const {
-    std::cout << "Card Type: " << getType() << "\n";
-    std::cout << "Instruction: " << instruction_ << "\n";
-    std::cout << "Drawn: " << (drawn_ ? "Yes" : "No") << "\n";
-    // Add more print statements based on your class members
-}
 
-bool Card::isPlayable() {
-    // Add logic to determine if the card is playable
-    return true;
-}
+
