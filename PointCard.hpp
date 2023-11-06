@@ -9,6 +9,8 @@ PointCard.hpp defines the PointCard class and inherits from the Card Class.
 #define POINTCARD_HPP
 
 #include <iostream>
+#include <cctype>
+#include <regex>
 #include <string>
 #include "Card.hpp"
 

@@ -19,19 +19,18 @@ PointCard::PointCard() {
 
 // isPlayable function implementation
 bool PointCard::isPlayable() {
-    // Check if the card is drawn
+     // Check if the card is drawn
     if (!getDrawn()) {
         return false;
     }
 
-    // Check if the instruction is a valid number
-    try {
-        std::stoi(getInstruction());
-    } catch (const std::invalid_argument& e) {
+    // Check if the instruction is valid
+    std::regex validInstructions("DRAW \\d+ CARD\\(S\\)|PLAY \\d+ CARD\\(S\\)|REVERSE HAND|SWAP HAND WITH OPPONENT");
+    if (!std::regex_match(getInstruction(), validInstructions)) {
         return false;
     }
 
-    // The card is playable if it is drawn and the instruction is a valid number
+    // The card is playable if it is drawn and the instruction is valid
     return true;
 }
 
