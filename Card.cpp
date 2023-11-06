@@ -1,5 +1,11 @@
 #include "Card.hpp"
 
+// Default Constructor
+Card::Card() : cardType_(POINT_CARD), instruction_(""), bitmap_(nullptr), drawn_(false) {
+    // Default image data
+    bitmap_ = new int[3]{1, 2, 3};
+}
+
 
 // Destructor
 Card::~Card() {
@@ -66,12 +72,6 @@ Card& Card::operator=(Card&& rhs) {
         rhs.bitmap_ = nullptr;
     }
     return *this;
-}
-
-// Default Constructor
-Card::Card() : cardType_(POINT_CARD), instruction_(""), bitmap_(nullptr), drawn_(false) {
-    // Default image data
-    bitmap_ = new int[3]{1, 2, 3};
 }
 
 std::string Card::getType() const {
