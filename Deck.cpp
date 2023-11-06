@@ -19,7 +19,7 @@ Deck<CardType>::~Deck() {}
 // AddCard function implementation
 template <typename CardType>
 void Deck<CardType>::AddCard(const CardType& card) {
-    cards.push_back(card);
+    cards_.push_back(card);
 }
 
 // Draw function implementation
@@ -30,31 +30,31 @@ CardType&& Deck<CardType>::Draw() {
     }
 
     CardType drawnCard = std::move(cards_.back());
-    cards.pop_back();
+    cards_.pop_back();
     return std::move(drawnCard);
 }
 
 // IsEmpty function implementation
 template <typename CardType>
 bool Deck<CardType>::IsEmpty() const {
-    return cards.empty();
+    return cards_.empty();
 }
 
 // Shuffle function implementation
 template <typename CardType>
 void Deck<CardType>::Shuffle() {
     std::mt19937 rng(2028358904);
-    std::shuffle(cards.begin(), cards.end(), rng);
+    std::shuffle(cards_.begin(), cards_.end(), rng);
 }
 
 // getSize function implementation
 template <typename CardType>
 int Deck<CardType>::getSize() const {
-    return cards.size();
+    return cards_.size();
 }
 
 // getDeck function implementation
 template <typename CardType>
 std::vector<CardType> Deck<CardType>::getDeck() const {
-    return cards;
+    return cards_;
 }
