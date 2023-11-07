@@ -1,56 +1,57 @@
-/*
-CSCI335 Fall 2023
-Assignment 1 – Card Game
-Name
-Date
-ActionCard.cpp Defines the ActionCard class.
-*/
-
-#include "ActionCard.hpp"
 #include <iostream>
+#include <string>
+#include "ActionCard.hpp"
 
-// Default Constructor
+
+/**
+  * @post: Construct a new Action Card object
+*/
 ActionCard::ActionCard() {
-    setInstruction("");
-    setImageData(nullptr);
-    setDrawn(false);
     setType(ACTION_CARD);
 }
 
-// isPlayable function implementation
+
+/**
+  * @return true if the card is playable, false otherwise
+  * For a card to be playable, it has to be drawn and the
+    instruction has to be valid
+  * Valid instructions:
+  * DRAW x CARD(S) : assume x is a positive integer
+  * PLAY x CARD(S) : assume x is a positive integer
+  * REVERSE HAND : reverse the order of the cards in the hand
+  * SWAP HAND WITH OPPONENT : swap the hand with the opponent
+*/
 bool ActionCard::isPlayable() {
-    // Check if the card is drawn
-    if (!getDrawn()) {
-        return false;
-    }
-
-    // Check if the instruction is valid
-    std::regex validInstructions("DRAW \\d+ CARD\\(S\\)|PLAY \\d+ CARD\\(S\\)|REVERSE HAND|SWAP HAND WITH OPPONENT");
-    if (!std::regex_match(getInstruction(), validInstructions)) {
-        return false;
-    }
-
-    // The card is playable if it is drawn and the instruction is valid
-    return true;
+  if(!getDrawn() || getInstruction().empty()) {
+    return false;
+  }
+  const std::regex validInstructionRegex(R"(^(DRAW|PLAY)\s+(\d+)\s+CARD\(S\)$|^(REVERSE HAND)$|^(SWAP HAND WITH OPPONENT)$)");
+    
+  return std::regex_match(getInstruction(), validInstructionRegex);
 }
 
-// Print function implementation
+
+/**
+  * @post: Print the ActionCard in the following format:
+  * Type: [CardType]
+  * Instruction: [Instruction]
+  * Card:
+  * [ImageData]
+  *
+  * Note: For [ImageData]: If there is no image data, print "No image data" instead
+*/
 void ActionCard::Print() const {
     std::cout << "Type: " << getType() << std::endl;
     std::cout << "Instruction: " << getInstruction() << std::endl;
+    std::cout << "Card: " << std::endl;
 
-    // Print image data or indicate if there is no image data
-    const int* imageData = getImageData();
-    if (imageData) {
-        std::cout << "Card:" << std::endl;
-        // Assuming imageData is an array of integers representing image data
-        for (int i = 0; i < 5; ++i) {
-            for (int j = 0; j < 5; ++j) {
-                std::cout << imageData[i * 5 + j] << " ";
-            }
-            std::cout << std::endl;
+    if(const int* imageData = getImageData()) {
+        for(int i = 0; i < 80; i++) {
+            std::cout << imageData[i] << " ";
         }
-    } else {
+        std::cout << std::endl;
+    }
+    else {
         std::cout << "No image data" << std::endl;
     }
 }

@@ -1,56 +1,54 @@
-/*
-CSCI335 Fall 2023
-Assignment 1 – Card Game
-Name
-Date
-PointCard.cpp Defines the PointCard class.
-*/
-
-#include "PointCard.hpp"
 #include <iostream>
+#include <string>
+#include "PointCard.hpp"
 
-// Default Constructor
+/**
+  * @post: Construct a new Point Card object
+*/
 PointCard::PointCard() {
-    setInstruction("");
-    setImageData(nullptr);
-    setDrawn(false);
     setType(POINT_CARD);
 }
 
-// isPlayable function implementation
+
+/**
+  * @return true if the card is playable, false otherwise
+  * For a card to be playable, it has to be drawn and the instruction has
+    to be a valid number
+*/
 bool PointCard::isPlayable() {
-     // Check if the card is drawn
-    if (!getDrawn()) {
+    if(!getDrawn() || getInstruction().empty()) {
         return false;
     }
-
-    // Check if the instruction is valid
-    std::regex validInstructions("DRAW \\d+ CARD\\(S\\)|PLAY \\d+ CARD\\(S\\)|REVERSE HAND|SWAP HAND WITH OPPONENT");
-    if (!std::regex_match(getInstruction(), validInstructions)) {
-        return false;
+    for(char c : getInstruction()){
+        if(!std::isdigit(c)) {
+            return false;
+        }
     }
-
-    // The card is playable if it is drawn and the instruction is valid
     return true;
 }
 
-// Print function implementation
+
+/**
+  * @post: Print the Point Card in the following format:
+  * Type: [CardType]
+  * Points: [Instruction]
+  * Card:
+  * [ImageData]
+  *
+  * Note: For [ImageData]: If there is no image data, print "No image data" instead
+*/
 void PointCard::Print() const {
     std::cout << "Type: " << getType() << std::endl;
     std::cout << "Points: " << getInstruction() << std::endl;
+    std::cout << "Card: " << std::endl;
 
-    // Print image data or indicate if there is no image data
-    const int* imageData = getImageData();
-    if (imageData) {
-        std::cout << "Card:" << std::endl;
-        // Assuming imageData is an array of integers representing image data
-        for (int i = 0; i < 5; ++i) {
-            for (int j = 0; j < 5; ++j) {
-                std::cout << imageData[i * 5 + j] << " ";
-            }
-            std::cout << std::endl;
+    if(const int* imageData = getImageData()) {
+        for(int i = 0; i < 80; i++) {
+            std::cout << imageData[i] << " ";
         }
-    } else {
+        std::cout << std::endl;
+    }
+    else {
         std::cout << "No image data" << std::endl;
     }
 }
