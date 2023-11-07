@@ -1,82 +1,126 @@
-/*
-CSCI335 Fall 2023
-Assignment 1 – Card Game
-Name
-Date
-Hand.cpp Defines the Hand class.
-*/
-
 #include "Hand.hpp"
-#include <stdexcept>
 
-// Constructor
-Hand::Hand() {}
+// Big Five and constructor
+/**
+ * @post: Construct a new Hand object
+ */
+Hand::Hand()
+{
+}
 
-// Destructor
-Hand::~Hand() {
+/**
+ * @post: Destroy the Hand object
+ */
+Hand::~Hand()
+{
     cards_.clear();
 }
 
-// Copy Constructor
-Hand::Hand(const Hand& other){
+/**
+ * Copy Constructor
+ * @param: other Hand object
+ */
+Hand::Hand(const Hand &other)
+{
     cards_ = other.cards_;
 }
 
-// Copy Assignment Operator
-Hand& Hand::operator=(const Hand& other) {
-    if (this != &other) {
+/**
+ * Copy Assignment Operator
+ * @param: other Hand object
+ * @return this Hand
+ */
+Hand &Hand::operator=(const Hand &other)
+{
+    if (this != &other)
+    {
         cards_ = other.cards_;
     }
     return *this;
 }
 
-// Move Constructor
-Hand::Hand(Hand&& other){
+/**
+ * Move Constructor
+ * @param: other Hand object
+ */
+Hand::Hand(Hand &&other)
+{
     cards_ = std::move(other.cards_);
 }
 
-// Move Assignment Operator
-Hand& Hand::operator=(Hand&& other) noexcept {
-    if (this != &other) {
+/**
+ * Move assignment operator
+ * @param: other Hand object
+ * @return this Hand
+ */
+Hand &Hand::operator=(Hand &&other)
+{
+    if (this != &other)
+    {
         cards_ = std::move(other.cards_);
     }
     return *this;
 }
 
-const std::deque<PointCard>& Hand::getCards() const {
+/**
+ * @return Hand
+ */
+const std::deque<PointCard> &Hand::getCards() const
+{
     return cards_;
 }
 
-void Hand::addCard(PointCard&& card) {
+/**
+ * @post: Add a card to the hand
+ * @param PointCard object
+ */
+void Hand::addCard(PointCard &&card)
+{
     card.setDrawn(true);
     cards_.push_back(card);
 }
 
-bool Hand::isEmpty() const {
+/**
+ * @return true if hand is empty, false otherwise
+ */
+bool Hand::isEmpty() const
+{
     return cards_.empty();
 }
 
-void Hand::Reverse() {
-    if (cards_.size() > 1){
-        for (int i = 0; i < cards_.size() / 2; i++){
+/**
+ * @post: Reverse the hand
+ */
+void Hand::Reverse()
+{
+    if (cards_.size() > 1)
+    {
+        for (int i = 0; i < cards_.size() / 2; i++)
+        {
             if (i != cards_.size() - i - 1)
                 std::swap(cards_[i], cards_[cards_.size() - i - 1]);
         }
     }
 }
 
-int Hand::PlayCard() {
-    if (isEmpty() || !(cards_.front().isPlayable())){
+/**
+ * @post: Play the card at the front of the hand, removing it from the hand
+ * Throws an exception if the hand is empty or the card is not playable
+ * If the card is not playable, the card is removed from the hand
+ * @return the points earned from playing the card
+ */
+int Hand::PlayCard()
+{
+    if (isEmpty() || !(cards_.front().isPlayable()))
+    {
         if (!(cards_.front().isPlayable()))
-            if (!(cards_.front().isPlayable()))
-                cards_.pop_front();
-            throw "Empty Hand or Card is not Playable";
-        }
-        int points = std::stoi(cards_.front().getInstruction());
-        cards_.pop_front();
-        return points;
+            cards_.pop_front();
+        throw "Empty Deck or Card is not Playable";
     }
 
-
+    int points = std::stoi(cards_.front().getInstruction());
+    cards_.pop_front();
+    return points;
+}
 
 
