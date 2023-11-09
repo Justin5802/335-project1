@@ -1,77 +1,94 @@
-/*
-CSCI335 Fall 2023
-Assignment 1 – Card Game
-Name
-Date
-Player.cpp implements the Player class.
-*/
-
 #include "Player.hpp"
-#include <iostream>
 
-// Constructor
+
 Player::Player() : score_(0), opponent_(nullptr), actiondeck_(nullptr), pointdeck_(nullptr) {}
-
-// Destructor
 Player::~Player() {}
-
-// Accessors and Mutators
 const Hand& Player::getHand() const {
-    return hand_;
+  return hand_;
 }
 
 void Player::setHand(const Hand& hand) {
-    hand_ = hand;
+  hand_ = hand;
 }
 
 int Player::getScore() const {
-    return score_;
+  return score_;
 }
 
 void Player::setScore(const int& score) {
-    score_ = score;
+  score_ = score;
 }
 
-Player* Player::getOpponent() {
-    return opponent_;
-}
-
-void Player::setOpponent(Player* opponent) {
-    opponent_ = opponent;
-}
-
-Deck<ActionCard>* Player::getActionDeck() {
-    return actiondeck_;
-}
-
-void Player::setActionDeck(Deck<ActionCard>* actiondeck) {
-    actiondeck_ = actiondeck;
-}
-
-Deck<PointCard>* Player::getPointDeck() {
-    return pointdeck_;
-}
-
-void Player::setPointDeck(Deck<PointCard>* pointdeck) {
-    pointdeck_ = pointdeck;
-}
-
-// Player actions
 void Player::play(ActionCard&& card) {
-     std::cout << "PLAYING ACTION CARD: " << card.getInstruction() << std::endl;
+  std::string instruction = card.getInstruction();
+  std::cout << "PLAYING ACTION CARD: " << instruction << std::endl;
+  if(instruction == "REVERSE HAND") {
+    hand_.Reverse();
+  }
+  else if(instruction == "SWAP HAND WITH OPPONENT") {
+    Hand temp = getHand();
+    setHand(opponent_->getHand());
+    opponent_->setHand(temp);
+  }
+  else {
+    std::vector<std::string> stored_words;
+    std::string word_holder = "";
+    for(int i = 0; i < instruction.size(); i++){ 
+      if(instruction[i] == ' '){
+        stored_words.push_back(word_holder);
+        word_holder = "";
+      }
+      else{
+        word_holder += instruction[i];
+      }
+    }
 
+    if(stored_words[0] == "DRAW"){
+      for(int i = 0; i < std::stoi(stored_words[1]); i++){
+        drawPointCard();
+      }
+    }
+    else if(stored_words[0] == "PLAY"){
+      for(int i = 0; i < std::stoi(stored_words[1]); i++){
+        playPointCard();
+      }
+    }
+  }
 }
+
 
 void Player::drawPointCard() {
-    if (!pointdeck_->IsEmpty()) {
-        PointCard&& drawnCard = pointdeck_->Draw();
-        hand_.addCard(std::move(drawnCard));
-    }
+  if(pointdeck_ && !pointdeck_->IsEmpty()) {
+    hand_.addCard(std::move(pointdeck_->Draw()));
+  }
 }
 
 void Player::playPointCard() {
-    if (!hand_.isEmpty()) {
-        int points = hand_.PlayCard();
-        score_ += points;
-    }
+  if(!hand_.isEmpty()) {
+    setScore(getScore() + hand_.PlayCard());
+  }
+}
+
+void Player::setOpponent(Player* opponent) {
+  opponent_ = opponent;
+}
+
+Player* Player::getOpponent() {
+  return opponent_;
+}
+
+void Player::setActionDeck(Deck<ActionCard>* actiondeck) {
+  actiondeck_ = actiondeck;
+}
+
+Deck<ActionCard>* Player::getActionDeck() {
+  return actiondeck_;
+}
+
+void Player::setPointDeck(Deck<PointCard>* pointdeck) {
+  pointdeck_ = pointdeck;
+}
+
+Deck<PointCard>* Player::getPointDeck() {
+  return pointdeck_;
 }
