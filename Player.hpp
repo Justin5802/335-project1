@@ -1,8 +1,8 @@
 /*
 CSCI335 Fall 2023
 Assignment 1 – Card Game
-Name
-Date
+Name: Justin Chu
+Date: 11/8/23
 Player.cpp implements the Player class.
 */
 

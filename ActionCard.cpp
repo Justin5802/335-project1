@@ -1,3 +1,12 @@
+
+/*
+CSCI335 Fall 2023
+Assignment 1 – Card Game
+Name: Justin Chu
+Date: 11/8/23
+ActionCard.hpp implements the ActionCard class and inherits from the Card Class.
+*/
+
 #include <iostream>
 #include <string>
 #include "ActionCard.hpp"

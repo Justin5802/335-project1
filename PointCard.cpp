@@ -1,3 +1,12 @@
+/*
+CSCI335 Fall 2023
+Assignment 1 – Card Game
+Name: Justin Chu
+Date: 11/8/23
+PointCard.cpp implements the PointCard class and inherits from the Card Class.
+*/
+
+
 #include <iostream>
 #include <string>
 #include "PointCard.hpp"

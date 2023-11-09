@@ -1,3 +1,11 @@
+/*
+CSCI335 Fall 2023
+Assignment 1 – Card Game
+Name: Justin Chu
+Date: 11/8/23
+Hand.cpp implementd the Hand class.
+*/
+
 #include "Hand.hpp"
 
 // Big Five and constructor

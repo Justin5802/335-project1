@@ -1,8 +1,8 @@
 /*
 CSCI335 Fall 2023
 Assignment 1 – Card Game
-Name
-Date
+Name: Justin Chu
+Date: 11/8/23
 Card.hpp defines the Card class and its member functions.
 */
 

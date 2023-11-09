@@ -1,9 +1,9 @@
 /*
 CSCI335 Fall 2023
 Assignment 1 – Card Game
-Name
-Date
-Deck.cpp Defines the Deck class.
+Name: Justin Chu
+Date: 11/8/23
+Deck.hpp implements the Deck class.
 */
 
 #include "Deck.hpp"
