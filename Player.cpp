@@ -2,6 +2,7 @@
 
 
 Player::Player() : score_(0), opponent_(nullptr), actiondeck_(nullptr), pointdeck_(nullptr) {}
+
 Player::~Player() {}
 const Hand& Player::getHand() const {
   return hand_;
